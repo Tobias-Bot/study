@@ -3,6 +3,8 @@ import { BrowserRouter, NavLink, Route } from "react-router-dom";
 
 import Main from "./components/Main.js";
 
+import "./App.css";
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -62,8 +64,7 @@ class App extends React.Component {
     return (
       <BrowserRouter>
         <div>
-          <button type="button" onClick={this.sendMessage}>тык</button>
-          <Route path={`/main/:${index}`}>
+          <Route path="/">
             <Main />
           </Route>
           <Route path="/other">

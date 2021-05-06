@@ -1,0 +1,122 @@
+.wrapper {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 750px;
+  overflow: hidden;
+  border-top: 2px solid #ff9edf;
+  background: url("../static/MainBackground.jpg") center/150% no-repeat;
+  box-shadow: 0px 3px 30px black;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0px;
+  z-index: 1;
+  width: 100%;
+  height: 55px;
+  padding: 8px 0 0 0;
+  border-radius: 10px 10px 0 0;
+  border-top: 2px solid #ff9edf;
+  background-color: rgb(16, 16, 27);
+  text-align: center;
+}
+
+.infoTitle {
+  position: relative;
+  width: 100%;
+  padding: 0px 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 500;
+  color: #c8cdff;
+}
+
+.btnFooter {
+  position: relative;
+  display: inline;
+  margin: 0 20px;
+  text-align: center;
+  font-size: 22px;
+  overflow: hidden;
+  color: #b4b9ff;
+  transition: 0.1s all;
+}
+.btnFooter:hover {
+  cursor: pointer;
+  color: #ffa4f3;
+  outline: none;
+}
+
+.btnFooterMain {
+  position: relative;
+  display: inline-block;
+  margin: 0 15px;
+  text-align: center;
+  border-radius: 5px;
+  padding: 0px 12px;
+  font-size: 18px;
+  overflow: hidden;
+  color: rgba(0, 0, 0, 0.8);
+  background-color: #ffc8f8;
+}
+.btnFooterMain:hover {
+  cursor: pointer;
+  outline: none;
+}
+
+.btnInfo-entering {
+  position: relative;
+  display: inline-block;
+  height: 35px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0px;
+  padding: 4px 12px 0px 12px;
+  color: rgb(37, 37, 51);
+  background-color: white;
+  border-radius: 100px;
+  box-shadow: 2px 3px 10px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+}
+.btnInfo-entered {
+  position: relative;
+  display: inline-block;
+  height: 35px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 500;
+  margin: 8px;
+  padding: 4px 12px 0px 12px;
+  color: rgb(37, 37, 51);
+  background-color: white;
+  border-radius: 100px;
+  box-shadow: 2px 3px 10px rgba(0, 0, 0, 0.5);
+  transition: 0.5s all;
+}
+.btnInfo-entered:hover {
+  cursor: pointer;
+}
+
+.btnInfo {
+  position: relative;
+  display: inline-block;
+  height: 30px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 500;
+  margin: 10px 5px;
+  padding: 3px 10px 0px 10px;
+  color: rgb(37, 37, 51);
+  background-color: white;
+  border-radius: 100px;
+  box-shadow: 2px 3px 10px rgba(0, 0, 0, 0.5);
+}
+.btnInfo:hover {
+  cursor: pointer;
+}
