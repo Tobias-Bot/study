@@ -9,6 +9,7 @@
   border-top: 2px solid #ff9edf;
   background: url("../static/MainBackground.jpg") center/150% no-repeat;
   box-shadow: 0px 3px 30px black;
+  text-align: center;
 }
 
 .footer {
@@ -83,6 +84,7 @@
   border-radius: 100px;
   box-shadow: 2px 3px 10px rgba(0, 0, 0, 0.5);
   opacity: 0;
+  transition: 0.5s all;
 }
 .btnInfo-entered {
   position: relative;
@@ -103,20 +105,41 @@
   cursor: pointer;
 }
 
-.btnInfo {
+.btnInfo-exiting {
   position: relative;
   display: inline-block;
-  height: 30px;
+  height: 35px;
   text-align: center;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 500;
-  margin: 10px 5px;
-  padding: 3px 10px 0px 10px;
+  margin: 8px;
+  padding: 4px 12px 0px 12px;
   color: rgb(37, 37, 51);
   background-color: white;
   border-radius: 100px;
   box-shadow: 2px 3px 10px rgba(0, 0, 0, 0.5);
+  transition: 0.5s all;
 }
-.btnInfo:hover {
+.btnInfo-exiting:hover {
+  cursor: pointer;
+}
+
+.btnInfo-exited {
+  position: relative;
+  display: inline-block;
+  height: 35px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 500;
+  margin: 8px;
+  padding: 4px 12px 0px 12px;
+  color: rgb(37, 37, 51);
+  background-color: white;
+  border-radius: 100px;
+  box-shadow: 2px 3px 10px rgba(0, 0, 0, 0.5);
+  transition: 0.5s all;
+  opacity: 0;
+}
+.btnInfo-exited:hover {
   cursor: pointer;
 }

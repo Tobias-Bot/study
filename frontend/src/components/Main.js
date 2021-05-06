@@ -16,8 +16,23 @@ class Main extends React.Component {
       show: false,
     };
 
+    this.domain = "192.168.1.57:8000";
+
+    this.mes = "Hello world!";
+    this.dialogs = [];
+    this.status = "disconnected";
+    this.chatSocket = "";
+
     this.getApps = this.getApps.bind(this);
     this.showAnimation = this.showAnimation.bind(this);
+
+    this.connect = this.connect.bind(this);
+    this.disconnect = this.disconnect.bind(this);
+    this.sendMessage = this.sendMessage.bind(this);
+  }
+
+  componentDidMount() {
+    this.connect();
   }
 
   showAnimation() {
@@ -30,6 +45,7 @@ class Main extends React.Component {
       return (
         <Transition key={i} in={this.state.show} timeout={100 + i * 150}>
           {(state) => {
+            console.log(state);
             return (
               <div
                 className={"btnInfo-" + state}
@@ -51,6 +67,38 @@ class Main extends React.Component {
     });
 
     return response;
+  }
+
+  connect() {
+    this.chatSocket = new WebSocket("ws://" + this.domain + "/ws/chat/111/");
+
+    this.chatSocket.onopen = () => {
+      this.status = "connected";
+
+      this.chatSocket.onmessage = ({ data }) => {
+        this.dialogs.push(JSON.parse(data));
+      };
+    };
+  }
+
+  disconnect() {
+    this.chatSocket.close();
+    this.status = "disconnected";
+    this.dialogs.splice(0, this.dialogs.length);
+  }
+
+  sendMessage() {
+    let message = this.mes;
+    let username = "Oleg";
+
+    this.chatSocket.send(
+      JSON.stringify({
+        message,
+        username,
+      })
+    );
+
+    this.mes = "";
   }
 
   render() {
