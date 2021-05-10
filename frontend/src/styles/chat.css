@@ -2,6 +2,8 @@
   position: absolute;
   width: 100%;
   height: calc(100% - 90px);
+  overflow-x: hidden;
+  overflow-y: auto;
   top: 35px;
   bottom: 55px;
   padding: 10px 5px;
@@ -53,4 +55,45 @@
   font-size: 16px;
   font-weight: 500;
   color: rgba(142, 164, 200);
+}
+
+.chatMsg {
+  position: relative;
+  width: 100%;
+  margin-top: 8px;
+  padding: 0px 6px;
+}
+
+.chatMsgMe {
+  display: inline-block;
+  max-width: 50%;
+  padding: 5px 10px;
+  border-radius: 10px 1px 15px 10px;
+  text-align: left;
+  background-color: rgb(16, 16, 27);
+  border: 2px solid #ffbce9;
+}
+
+.chatMsgOther {
+  display: inline-block;
+  max-width: 50%;
+  padding: 5px 10px;
+  border-radius: 1px 10px 15px 10px;
+  text-align: left;
+  background-color: rgb(16, 16, 27);
+  border: 2px solid #ffbce9;
+}
+
+.msgUsername {
+  font-size: 12px;
+  font-weight: 500;
+  color: white;
+  opacity: 0.5;
+}
+
+.msgText {
+  font-size: 14px;
+  font-weight: 400;
+  color: white;
+  opacity: 0.9;
 }

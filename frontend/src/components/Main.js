@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+// import { NavLink } from "react-router-dom";
 import Transition from "react-transition-group/Transition";
 
 import apps from "../data/apps";
@@ -16,17 +16,20 @@ class Main extends React.Component {
       show: false,
 
       msgText: "",
+      dialogs: [],
     };
+
+    this.msgInputRef = React.createRef();
 
     this.domain = "192.168.1.57:8000";
 
-    this.mes = "Hello world!";
-    this.dialogs = [];
     this.status = "disconnected";
     this.chatSocket = "";
 
     this.getApps = this.getApps.bind(this);
     this.showAnimation = this.showAnimation.bind(this);
+    this.saveMsgText = this.saveMsgText.bind(this);
+    this.getDialogs = this.getDialogs.bind(this);
 
     this.connect = this.connect.bind(this);
     this.disconnect = this.disconnect.bind(this);
@@ -41,6 +44,8 @@ class Main extends React.Component {
     let show = this.state.show;
     this.setState({ show: !show });
   }
+
+  /* render funcs */
 
   getApps() {
     let response = apps.map((app, i) => {
@@ -70,6 +75,35 @@ class Main extends React.Component {
     return response;
   }
 
+  getDialogs() {
+    let dialogs = this.state.dialogs;
+    let myName = localStorage.getItem("username");
+
+    let response = dialogs.map((msg, i) => {
+      return (
+        <div key={msg.username + i}>
+          {myName === msg.username ? (
+            <div className={"chatMsg"} style={{ textAlign: "right" }}>
+              <div className="chatMsgMe">
+                <div className="msgUsername">{msg.username}</div>
+                <div className="msgText">{msg.message}</div>
+              </div>
+            </div>
+          ) : (
+            <div className={"chatMsg"} style={{ textAlign: "left" }}>
+              <div className="chatMsgOther">
+                <div className="msgUsername">{msg.username}</div>
+                <div className="msgText">{msg.message}</div>
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    });
+
+    return response;
+  }
+
   /* websocket funcs */
 
   connect() {
@@ -79,7 +113,11 @@ class Main extends React.Component {
       this.status = "connected";
 
       this.chatSocket.onmessage = ({ data }) => {
-        this.dialogs.push(JSON.parse(data));
+        let msg = [];
+        let dialogs = this.state.dialogs;
+
+        msg.push(JSON.parse(data));
+        this.setState({ dialogs: [...dialogs, ...msg] });
       };
     };
   }
@@ -91,8 +129,8 @@ class Main extends React.Component {
   }
 
   sendMessage() {
-    let message = this.mes;
-    let username = "Oleg";
+    let message = this.state.msgText;
+    let username = localStorage.getItem("username");
 
     this.chatSocket.send(
       JSON.stringify({
@@ -101,7 +139,8 @@ class Main extends React.Component {
       })
     );
 
-    this.mes = "";
+    this.setState({ msgText: "" });
+    this.msgInputRef.current.value = "";
   }
 
   /* msg send funcs */
@@ -114,6 +153,7 @@ class Main extends React.Component {
     let show = this.state.show;
 
     let apps = this.getApps();
+    let dialogs = this.getDialogs();
 
     return (
       <div>
@@ -135,20 +175,21 @@ class Main extends React.Component {
             ""
           )}
 
-          <div className="chat"></div>
+          <div className="chat">{dialogs}</div>
 
           <div className="msgInputBar">
             <div className="row">
               <div className="col-10">
                 <textarea
                   className="msgInput"
+                  ref={this.msgInputRef}
                   rows="2"
                   placeholder="Введите сообщение.."
                   onChange={this.saveMsgText}
                 ></textarea>
               </div>
               <div className="col">
-                <div className="msgSendBtn">
+                <div className="msgSendBtn" onClick={this.sendMessage}>
                   <i className="fas fa-paper-plane"></i>
                 </div>
               </div>
