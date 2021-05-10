@@ -1,0 +1,56 @@
+.chat {
+  position: absolute;
+  width: 100%;
+  height: calc(100% - 90px);
+  top: 35px;
+  bottom: 55px;
+  padding: 10px 5px;
+}
+
+.msgInputBar {
+  position: fixed;
+  display: block;
+  bottom: 65px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 93%;
+  border-radius: 8px;
+  background-color: rgba(35, 35, 61, 0.8);
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.6);
+}
+
+.msgInput {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  padding: 4px 12px;
+  color: white;
+  background-color: rgb(16, 16, 27, 0);
+  font-weight: 400;
+  font-size: 15px;
+  border: none;
+  resize: none;
+  outline: none;
+}
+
+.msgSendBtn {
+  position: absolute;
+  display: block;
+  top: 10px;
+  right: 15px;
+  width: 60px;
+  height: 60px;
+  padding: 5px;
+  font-size: 18px;
+  color: #ff9edf;
+}
+.msgSendBtn:hover {
+  cursor: pointer;
+  color: #ffc6ec;
+}
+
+.chatInfo {
+  font-size: 16px;
+  font-weight: 500;
+  color: rgba(142, 164, 200);
+}

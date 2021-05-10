@@ -14,6 +14,8 @@ class Main extends React.Component {
     super(props);
     this.state = {
       show: false,
+
+      msgText: "",
     };
 
     this.domain = "192.168.1.57:8000";
@@ -45,7 +47,6 @@ class Main extends React.Component {
       return (
         <Transition key={i} in={this.state.show} timeout={100 + i * 150}>
           {(state) => {
-            console.log(state);
             return (
               <div
                 className={"btnInfo-" + state}
@@ -68,6 +69,8 @@ class Main extends React.Component {
 
     return response;
   }
+
+  /* websocket funcs */
 
   connect() {
     this.chatSocket = new WebSocket("ws://" + this.domain + "/ws/chat/111/");
@@ -101,6 +104,12 @@ class Main extends React.Component {
     this.mes = "";
   }
 
+  /* msg send funcs */
+
+  saveMsgText(e) {
+    this.setState({ msgText: e.target.value });
+  }
+
   render() {
     let show = this.state.show;
 
@@ -110,12 +119,42 @@ class Main extends React.Component {
       <div>
         <div className="wrapper">
           <div className="collapse navbar-collapse" id="navbarNavDropdown">
+            <br />
             <div className="infoTitle">приложения</div>
             <br />
             {apps}
           </div>
 
+          {!show ? (
+            <div className="header">
+              <span className="chatInfo">
+                <i className="fas fa-users"></i> 8
+              </span>
+            </div>
+          ) : (
+            ""
+          )}
+
           <div className="chat"></div>
+
+          <div className="msgInputBar">
+            <div className="row">
+              <div className="col-10">
+                <textarea
+                  className="msgInput"
+                  rows="2"
+                  placeholder="Введите сообщение.."
+                  onChange={this.saveMsgText}
+                ></textarea>
+              </div>
+              <div className="col">
+                <div className="msgSendBtn">
+                  <i className="fas fa-paper-plane"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div className="footer">
             <div
               className="btnFooterMain"
