@@ -1,9 +1,14 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
+<<<<<<< Updated upstream
 /frontend/node_modules
 /backend/newenv
 /redis-server
+=======
+frontend/node_modules
+redis-server
+>>>>>>> Stashed changes
 /.pnp
 .pnp.js
 
@@ -11,7 +16,11 @@
 /coverage
 
 # production
+<<<<<<< Updated upstream
 /build
+=======
+frontend/build
+>>>>>>> Stashed changes
 
 # misc
 .DS_Store
