@@ -157,58 +157,56 @@ class Main extends React.Component {
 
     return (
       <div>
-        <div className="wrapper">
-          <div className="collapse navbar-collapse" id="navbarNavDropdown">
-            <br />
-            <div className="infoTitle">приложения</div>
-            <br />
-            {apps}
+        <div className="collapse navbar-collapse" id="navbarNavDropdown">
+          <br />
+          <div className="infoTitle">приложения</div>
+          <br />
+          {apps}
+        </div>
+
+        {!show ? (
+          <div className="header">
+            <span className="chatInfo">
+              <i className="fas fa-users"></i> 8
+            </span>
           </div>
+        ) : (
+          ""
+        )}
 
-          {!show ? (
-            <div className="header">
-              <span className="chatInfo">
-                <i className="fas fa-users"></i> 8
-              </span>
+        <div className="chat">{dialogs}</div>
+
+        <div className="msgInputBar">
+          <div className="row">
+            <div className="col-10">
+              <textarea
+                className="msgInput"
+                ref={this.msgInputRef}
+                rows="2"
+                placeholder="Введите сообщение.."
+                onChange={this.saveMsgText}
+              ></textarea>
             </div>
-          ) : (
-            ""
-          )}
-
-          <div className="chat">{dialogs}</div>
-
-          <div className="msgInputBar">
-            <div className="row">
-              <div className="col-10">
-                <textarea
-                  className="msgInput"
-                  ref={this.msgInputRef}
-                  rows="2"
-                  placeholder="Введите сообщение.."
-                  onChange={this.saveMsgText}
-                ></textarea>
-              </div>
-              <div className="col">
-                <div className="msgSendBtn" onClick={this.sendMessage}>
-                  <i className="fas fa-paper-plane"></i>
-                </div>
+            <div className="col">
+              <div className="msgSendBtn" onClick={this.sendMessage}>
+                <i className="fas fa-paper-plane"></i>
               </div>
             </div>
           </div>
+        </div>
 
-          <div className="footer">
-            <div
-              className="btnFooterMain"
-              data-toggle="collapse"
-              data-target="#navbarNavDropdown"
-              onClick={this.showAnimation}
-            >
-              {!show ? (
-                <i className="fas fa-th-large"></i>
-              ) : (
-                <i className="fas fa-times" ref={this.closeRef}></i>
-              )}
-            </div>
+        <div className="footer">
+          <div
+            className="btnFooterMain"
+            data-toggle="collapse"
+            data-target="#navbarNavDropdown"
+            onClick={this.showAnimation}
+          >
+            {!show ? (
+              <i className="fas fa-th-large"></i>
+            ) : (
+              <i className="fas fa-times" ref={this.closeRef}></i>
+            )}
           </div>
         </div>
       </div>

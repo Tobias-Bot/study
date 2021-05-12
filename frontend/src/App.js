@@ -1,10 +1,22 @@
 import React from "react";
 // import axios from 'axios';
-import { BrowserRouter, NavLink, Route } from "react-router-dom";
+import { BrowserRouter, NavLink, Route, withRouter } from "react-router-dom";
 
-import Main from "./components/Main.js";
+//import Main from "./components/Main.js";
+import LoginPage from "./components/LoginPage.js";
 
 import "./App.css";
+
+const Button = withRouter(({ history }) => (
+  <button
+    type="button"
+    onClick={() => {
+      history.push("/new-location");
+    }}
+  >
+    Click Me!
+  </button>
+));
 
 class App extends React.Component {
   constructor(props) {
@@ -28,9 +40,9 @@ class App extends React.Component {
 
     return (
       <BrowserRouter>
-        <div>
+        <div className="wrapper">
           <Route path="/">
-            <Main />
+            <LoginPage />
           </Route>
           <Route path="/other">
             <NavLink to="/main">Go to main</NavLink>
