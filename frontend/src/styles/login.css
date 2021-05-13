@@ -1,0 +1,44 @@
+.inputForm {
+  position: relative;
+  width: 90%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 8px 11px;
+  border-radius: 8px;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.3);
+  font-weight: 500;
+  font-size: 16px;
+  background-color: #e7e9ff;
+  outline: none;
+  border: none;
+}
+
+.inputTitle {
+  position: relative;
+  width: 95%;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: left;
+  margin-bottom: 10px;
+  font-weight: 700;
+  font-size: 25px;
+  opacity: 0.5;
+}
+
+.authBtn {
+  position: relative;
+  padding: 5px 10px 7px 10px;
+  margin: 10px 50px;
+  font-weight: 500;
+  font-size: 20px;
+  border: 1.5px solid #c3c8fd;
+  border-radius: 10px;
+  background-color: rgba(9, 11, 26, 0.8);
+  box-shadow: 0px 2px 8px black;
+  color: #c3c8fd;
+}
+.authBtn:hover {
+  cursor: pointer;
+  background-color: rgba(9, 11, 26, 0.9);
+  color: #dfe2ff;
+}
