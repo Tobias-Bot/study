@@ -6,7 +6,7 @@
   overflow-y: auto;
   top: 35px;
   bottom: 55px;
-  padding: 10px 5px;
+  padding: 10px 5px 85px 5px;
 }
 
 .msgInputBar {
@@ -17,7 +17,7 @@
   transform: translateX(-50%);
   width: 93%;
   border-radius: 8px;
-  background-color: rgba(35, 35, 61, 0.8);
+  background-color: rgba(32, 32, 63, 0.9);
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.6);
 }
 
@@ -60,28 +60,28 @@
 .chatMsg {
   position: relative;
   width: 100%;
-  margin-top: 8px;
+  margin-top: 10px;
   padding: 0px 6px;
 }
 
 .chatMsgMe {
   display: inline-block;
   max-width: 50%;
-  padding: 5px 10px;
-  border-radius: 10px 1px 15px 10px;
+  padding: 5px 10px 8px 10px;
+  border-radius: 15px 1px 25px 15px;
   text-align: left;
   background-color: rgb(16, 16, 27);
-  border: 2px solid #ffbce9;
+  border: 2px solid #d69ec4;
 }
 
 .chatMsgOther {
   display: inline-block;
   max-width: 50%;
-  padding: 5px 10px;
-  border-radius: 1px 10px 15px 10px;
+  padding: 5px 10px 8px 10px;
+  border-radius: 1px 15px 25px 15px;
   text-align: left;
   background-color: rgb(16, 16, 27);
-  border: 2px solid #ffbce9;
+  border: 2px solid #d69ec4;
 }
 
 .msgUsername {
@@ -89,10 +89,11 @@
   font-weight: 500;
   color: white;
   opacity: 0.5;
+  margin-bottom: 6px;
 }
 
 .msgText {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 400;
   color: white;
   opacity: 0.9;

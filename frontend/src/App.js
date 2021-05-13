@@ -1,29 +1,23 @@
 import React from "react";
 import axios from "axios";
-import {
-  BrowserRouter,
-  NavLink,
-  Route,
-  withRouter,
-  useHistory,
-} from "react-router-dom";
-import { navigate } from 'hookrouter'
+import { BrowserRouter, NavLink, Route, Switch } from "react-router-dom";
+// import { navigate, useRoutes } from "hookrouter";
 
-//import Main from "./components/Main.js";
+import Main from "./components/Main.js";
 import LoginPage from "./components/LoginPage.js";
 
 import "./App.css";
 
-// const GoToRoom = withRouter(({ history }) => (
-//   <button
-//     type="button"
-//     onClick={() => {
-//       history.push("/new-location");
-//     }}
-//   >
-//     Click Me!
-//   </button>
-// ));
+// const routes = {
+//   "/": () => <LoginPage getForm={App.getForm} />,
+//   "/main/:id": ({ id }) => <Main id={id} />,
+// };
+
+// const GetRoutes = () => {
+//   const routeResult = useRoutes(routes);
+
+//   return routeResult;
+// };
 
 class App extends React.Component {
   constructor(props) {
@@ -36,12 +30,9 @@ class App extends React.Component {
 
     this.userLogin = this.userLogin.bind(this);
     this.userReg = this.userReg.bind(this);
-    this.isAuth = this.isAuth.bind(this);
   }
 
-  componentDidMount() {
-    this.isAuth();
-  }
+  componentDidMount() {}
 
   getForm(form) {
     this.setState({ form });
@@ -66,34 +57,17 @@ class App extends React.Component {
   }
 
   userReg() {
-    // let username = localStorage.getItem("userLogin");
-    // let password = localStorage.getItem("userPassword");
-    // axios
-    //   .post("http://192.168.1.57:8000/api/v1/auth_token/token/login", {
-    //     username,
-    //     password,
-    //   })
-    //   .then((response) => {
-    //     let token = response.auth_token;
-    //     console.log(token);
-    //     localStorage.setItem("token", token);
-    //   });
-  }
+    let username = localStorage.getItem("userLogin");
+    let password = localStorage.getItem("userPassword");
 
-  isAuth() {
-    let token = localStorage.getItem("token");
-
-    if (token) {
-      axios
-        .get("http://192.168.1.57:8000/api/v1/auth/users/me", {
-          headers: { Authorization: "Token " + token },
-        })
-        .then((response) => {
-          let id = response.data.id;
-
-          navigate("/main/" + id);
-        });
-    }
+    axios
+      .post("http://192.168.1.57:8000/api/v1/auth/users/", {
+        username,
+        password,
+      })
+      .then((response) => {
+        this.userLogin();
+      });
   }
 
   render() {
@@ -139,9 +113,14 @@ class App extends React.Component {
         </div>
 
         <div className="wrapper">
-          <Route path="/">
-            <LoginPage getForm={this.getForm} />
-          </Route>
+          <Switch>
+            <Route exact path="/">
+              <LoginPage getForm={this.getForm} />
+            </Route>
+            <Route path="/main/:id">
+              <Main />
+            </Route>
+          </Switch>
         </div>
       </BrowserRouter>
     );

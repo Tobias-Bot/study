@@ -77,7 +77,7 @@ class Main extends React.Component {
 
   getDialogs() {
     let dialogs = this.state.dialogs;
-    let myName = localStorage.getItem("username");
+    let myName = localStorage.getItem("userLogin");
 
     let response = dialogs.map((msg, i) => {
       return (
@@ -130,7 +130,7 @@ class Main extends React.Component {
 
   sendMessage() {
     let message = this.state.msgText;
-    let username = localStorage.getItem("username");
+    let username = localStorage.getItem("userLogin");
 
     this.chatSocket.send(
       JSON.stringify({

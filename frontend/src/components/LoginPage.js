@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { BrowserRouter, NavLink, Route, withRouter } from "react-router-dom";
+import { navigate } from "hookrouter";
 
 import Main from "./Main.js";
 
@@ -25,9 +26,13 @@ class LoginPage extends React.Component {
 
     this.getLoginForm = this.getLoginForm.bind(this);
     this.getRegForm = this.getRegForm.bind(this);
+
+    this.isAuth = this.isAuth.bind(this);
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.isAuth();
+  }
 
   /* form render funcs */
 
@@ -102,6 +107,23 @@ class LoginPage extends React.Component {
     response.title = "Регистрация";
 
     this.props.getForm(response);
+  }
+
+  isAuth() {
+    let token = localStorage.getItem("token");
+
+    if (token) {
+      axios
+        .get("http://192.168.1.57:8000/api/v1/auth/users/me", {
+          headers: { Authorization: "Token " + token },
+        })
+        .then((response) => {
+          let id = response.data.id;
+
+          navigate("/main/" + id);
+          window.location.reload();
+        });
+    }
   }
 
   render() {
