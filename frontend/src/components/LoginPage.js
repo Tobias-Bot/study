@@ -37,7 +37,14 @@ class LoginPage extends React.Component {
     response.form = (
       <div>
         <div className="inputTitle">Логин</div>
-        <input className="inputForm" type="text" placeholder="введите логин" />
+        <input
+          className="inputForm"
+          type="text"
+          placeholder="введите логин"
+          onChange={(e) => {
+            localStorage.setItem("userLogin", e.target.value);
+          }}
+        />
         <br />
         <br />
         <div className="inputTitle">Пароль</div>
@@ -45,6 +52,9 @@ class LoginPage extends React.Component {
           className="inputForm"
           type="password"
           placeholder="введите пароль"
+          onChange={(e) => {
+            localStorage.setItem("userPassword", e.target.value);
+          }}
         />
       </div>
     );
@@ -64,6 +74,9 @@ class LoginPage extends React.Component {
           className="inputForm"
           type="text"
           placeholder="придумайте имя пользователя"
+          onChange={(e) => {
+            localStorage.setItem("userLogin", e.target.value);
+          }}
         />
         <br />
         <br />
@@ -72,6 +85,9 @@ class LoginPage extends React.Component {
           className="inputForm"
           type="password"
           placeholder="придумайте пароль"
+          onChange={(e) => {
+            localStorage.setItem("userLogin", e.target.value);
+          }}
         />
         <br />
         <br />
@@ -87,10 +103,6 @@ class LoginPage extends React.Component {
 
     this.props.getForm(response);
   }
-
-  /* send request funcs */
-
-  
 
   render() {
     return (

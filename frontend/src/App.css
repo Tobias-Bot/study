@@ -55,3 +55,19 @@ body {
   background-color: rgba(0, 0, 0, 0.9);
   transition: 0.6s all;
 }
+
+.mainBtn {
+  position: relative;
+  padding: 5px 12px 6px 12px;
+  border: 2px solid #b9beff;
+  border-radius: 8px;
+  background-color: #1b1d35;
+  color: #b9beff;
+  font-weight: 500;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.5);
+}
+.mainBtn:hover {
+  cursor: pointer;
+  background-color: rgba(21, 27, 70, 0.9);
+  color: #dfe2ff;
+}
