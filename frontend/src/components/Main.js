@@ -6,6 +6,7 @@ import apps from "../data/apps";
 
 import "../styles/main.css";
 import "../styles/chat.css";
+import { NavLink } from "react-router-dom";
 
 // import background from "../static/MainBackground.jpg";
 
@@ -48,24 +49,24 @@ class Main extends React.Component {
   /* render funcs */
 
   getApps() {
+    let id = localStorage.getItem("userId");
+
     let response = apps.map((app, i) => {
       return (
         <Transition key={i} in={this.state.show} timeout={100 + i * 150}>
           {(state) => {
             return (
-              <div
-                className={"btnInfo-" + state}
-                style={{ backgroundColor: app.color }}
-                data-toggle="modal"
-                data-target="#postModal"
-                onClick={() =>
-                  this.setModalForm(this.getTopicForm(app.form, app.title), {
-                    color: app.color,
-                  })
-                }
-              >
-                <i className={app.icon}></i> {app.title}
-              </div>
+              <NavLink to={`/app/${id}`}>
+                <div
+                  className={"btnInfo-" + state}
+                  style={{ backgroundColor: app.color }}
+                  onClick={() => {
+                    localStorage.setItem("recentUsedApp", app.url);
+                  }}
+                >
+                  <i className={app.icon}></i> {app.title}
+                </div>
+              </NavLink>
             );
           }}
         </Transition>
@@ -107,7 +108,9 @@ class Main extends React.Component {
   /* websocket funcs */
 
   connect() {
-    this.chatSocket = new WebSocket("ws://" + this.domain + "/ws/chat/111/");
+    let id = localStorage.getItem("userId");
+
+    this.chatSocket = new WebSocket(`ws://${this.domain}/ws/chat/${id}/`);
 
     this.chatSocket.onopen = () => {
       this.status = "connected";
@@ -151,6 +154,7 @@ class Main extends React.Component {
 
   render() {
     let show = this.state.show;
+    let username = localStorage.getItem("userLogin");
 
     let apps = this.getApps();
     let dialogs = this.getDialogs();
@@ -166,6 +170,9 @@ class Main extends React.Component {
 
         {!show ? (
           <div className="header">
+            <span className="chatInfo">
+              <i className="fas fa-user"></i> {username}
+            </span>
             <span className="chatInfo">
               <i className="fas fa-users"></i> 8
             </span>
@@ -198,8 +205,8 @@ class Main extends React.Component {
         <div className="footer">
           <div
             className="btnFooterMain"
-            data-toggle="collapse"
-            data-target="#navbarNavDropdown"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNavDropdown"
             onClick={this.showAnimation}
           >
             {!show ? (

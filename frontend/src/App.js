@@ -5,6 +5,7 @@ import { BrowserRouter, NavLink, Route, Switch } from "react-router-dom";
 
 import Main from "./components/Main.js";
 import LoginPage from "./components/LoginPage.js";
+import AppPage from "./components/AppPage.js";
 
 import "./App.css";
 
@@ -104,6 +105,7 @@ class App extends React.Component {
                   onClick={
                     formTitle === "Авторизация" ? this.userLogin : this.userReg
                   }
+                  data-bs-dismiss="modal"
                 >
                   войти
                 </button>
@@ -119,6 +121,9 @@ class App extends React.Component {
             </Route>
             <Route path="/main/:id">
               <Main />
+            </Route>
+            <Route path="/app/:id">
+              <AppPage />
             </Route>
           </Switch>
         </div>

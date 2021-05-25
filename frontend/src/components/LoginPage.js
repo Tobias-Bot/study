@@ -120,6 +120,8 @@ class LoginPage extends React.Component {
         .then((response) => {
           let id = response.data.id;
 
+          localStorage.setItem("userId", id);
+
           navigate("/main/" + id);
           window.location.reload();
         });
