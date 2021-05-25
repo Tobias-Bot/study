@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
-import { BrowserRouter, NavLink, Route, Switch } from "react-router-dom";
-// import { navigate, useRoutes } from "hookrouter";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { navigate } from "hookrouter";
 
 import Main from "./components/Main.js";
 import LoginPage from "./components/LoginPage.js";
@@ -25,9 +25,12 @@ class App extends React.Component {
     super(props);
     this.state = {
       form: "",
+
+      settingForm: "",
     };
 
     this.getForm = this.getForm.bind(this);
+    this.getSettings = this.getSettings.bind(this);
 
     this.userLogin = this.userLogin.bind(this);
     this.userReg = this.userReg.bind(this);
@@ -37,6 +40,10 @@ class App extends React.Component {
 
   getForm(form) {
     this.setState({ form });
+  }
+
+  getSettings(settingForm) {
+    this.setState({ settingForm });
   }
 
   /* send login request funcs */
@@ -53,7 +60,22 @@ class App extends React.Component {
       .then((response) => {
         let token = response.data.auth_token;
 
-        localStorage.setItem("token", token);
+        if (token) {
+          axios
+            .get("http://192.168.1.57:8000/api/v1/auth/users/me", {
+              headers: { Authorization: "Token " + token },
+            })
+            .then((response) => {
+              let id = response.data.id;
+
+              localStorage.setItem("userId", id);
+
+              navigate("/main/" + id);
+              window.location.reload();
+            });
+
+          localStorage.setItem("token", token);
+        }
       });
   }
 
@@ -74,6 +96,8 @@ class App extends React.Component {
   render() {
     let form = this.state.form.form;
     let formTitle = this.state.form.title;
+
+    let settingForm = this.state.settingForm;
 
     return (
       <BrowserRouter>
@@ -114,13 +138,63 @@ class App extends React.Component {
           </div>
         </div>
 
+        <div
+          className="modal fade"
+          id="RoomsModal"
+          tabIndex="-1"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
+          <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="exampleModalLabel">
+                  Комнаты
+                </h5>
+                <button
+                  type="button"
+                  className="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div className="modal-body">...</div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          className="modal fade"
+          id="SettingsModal"
+          tabIndex="-1"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
+          <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="exampleModalLabel">
+                  Настройки
+                </h5>
+                <button
+                  type="button"
+                  className="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div className="modal-body">{settingForm}</div>
+            </div>
+          </div>
+        </div>
+
         <div className="wrapper">
           <Switch>
             <Route exact path="/">
               <LoginPage getForm={this.getForm} />
             </Route>
             <Route path="/main/:id">
-              <Main />
+              <Main setSettingsForm={this.getSettings} />
             </Route>
             <Route path="/app/:id">
               <AppPage />

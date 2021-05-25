@@ -23,29 +23,38 @@
   border-top: 2px solid #ff9edf;
   background-color: rgb(16, 16, 27);
   text-align: center;
-  box-shadow: 0px -3px 15px rgba(0, 0, 0, 0.6);
+  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.5);
+}
+
+.btn {
+  position: relative;
+  display: inline-block;
+  border-radius: 8px;
+  font-weight: 500;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.4);
+  background-color: white;
 }
 
 .infoTitle {
   position: relative;
-  width: 100%;
-  padding: 0px 20px;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  display: inline-block;
   text-align: center;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 500;
-  color: #c8cdff;
+  color: #a8adff;
 }
 
 .btnFooter {
   position: relative;
   display: inline;
-  margin: 0 20px;
+  margin: 0 30px;
+  border-radius: 8px;
+  padding: 2px 12px;
   text-align: center;
-  font-size: 22px;
+  font-size: 18px;
   overflow: hidden;
-  color: #b4b9ff;
+  color: #949bf6;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
   transition: 0.1s all;
 }
 .btnFooter:hover {
@@ -59,12 +68,13 @@
   display: inline-block;
   margin: 0 15px;
   text-align: center;
-  border-radius: 5px;
-  padding: 0px 12px;
+  border-radius: 8px;
+  padding: 0px 15px;
   font-size: 18px;
   overflow: hidden;
   color: rgba(0, 0, 0, 0.8);
-  background-color: #ffc8f8;
+  background-color: #fbbbf3;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4);
 }
 .btnFooterMain:hover {
   cursor: pointer;

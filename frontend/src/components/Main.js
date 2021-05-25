@@ -1,12 +1,14 @@
 import React from "react";
-// import { NavLink } from "react-router-dom";
+import axios from "axios";
+import { NavLink } from "react-router-dom";
 import Transition from "react-transition-group/Transition";
+import { navigate } from "hookrouter";
 
 import apps from "../data/apps";
 
 import "../styles/main.css";
 import "../styles/chat.css";
-import { NavLink } from "react-router-dom";
+import "../styles/settings.css";
 
 // import background from "../static/MainBackground.jpg";
 
@@ -18,6 +20,8 @@ class Main extends React.Component {
 
       msgText: "",
       dialogs: [],
+
+      theme: "",
     };
 
     this.msgInputRef = React.createRef();
@@ -31,6 +35,8 @@ class Main extends React.Component {
     this.showAnimation = this.showAnimation.bind(this);
     this.saveMsgText = this.saveMsgText.bind(this);
     this.getDialogs = this.getDialogs.bind(this);
+    this.getSettings = this.getSettings.bind(this);
+    this.userLogout = this.userLogout.bind(this);
 
     this.connect = this.connect.bind(this);
     this.disconnect = this.disconnect.bind(this);
@@ -38,6 +44,10 @@ class Main extends React.Component {
   }
 
   componentDidMount() {
+    let t = localStorage.getItem("chatTheme");
+
+    if (t) this.setState({ theme: t });
+
     this.connect();
   }
 
@@ -105,6 +115,48 @@ class Main extends React.Component {
     return response;
   }
 
+  getSettings() {
+    let username = localStorage.getItem("userLogin");
+
+    let form = (
+      <div>
+        <div className="settingTitle">Пользователь</div>
+        <div style={{ width: "100%", textAlign: "center" }}>
+          <button
+            type="button"
+            className="btn btn-outline-danger"
+            data-bs-dismiss="modal"
+            onClick={this.userLogout}
+          >
+            Выйти из {username}
+          </button>
+        </div>
+        <br />
+        <div className="settingTitle">Тема</div>
+        <div style={{ textAlign: "center" }}>
+          <div
+            className="themeBlock"
+            style={{ backgroundColor: "rgb(16, 16, 27)" }}
+            onClick={() => {
+              this.setState({ theme: "" });
+              localStorage.setItem("chatTheme", "");
+            }}
+          ></div>
+          <div
+            className="themeBlock"
+            style={{ backgroundColor: "rgba(222, 231, 255)" }}
+            onClick={() => {
+              this.setState({ theme: "white" });
+              localStorage.setItem("chatTheme", "white");
+            }}
+          ></div>
+        </div>
+      </div>
+    );
+
+    this.props.setSettingsForm(form);
+  }
+
   /* websocket funcs */
 
   connect() {
@@ -146,6 +198,24 @@ class Main extends React.Component {
     this.msgInputRef.current.value = "";
   }
 
+  userLogout() {
+    let token = localStorage.getItem("token");
+
+    axios
+      .options("/api/v1/auth_token/token/logout", {
+        headers: { Authorization: "Token " + token },
+      })
+      .then((response) => {
+        localStorage.setItem("userLogin", "");
+        localStorage.setItem("userPassword", "");
+        localStorage.setItem("userId", "");
+        localStorage.setItem("token", "");
+
+        navigate("/");
+        window.location.reload();
+      });
+  }
+
   /* msg send funcs */
 
   saveMsgText(e) {
@@ -155,6 +225,7 @@ class Main extends React.Component {
   render() {
     let show = this.state.show;
     let username = localStorage.getItem("userLogin");
+    let theme = this.state.theme;
 
     let apps = this.getApps();
     let dialogs = this.getDialogs();
@@ -163,31 +234,46 @@ class Main extends React.Component {
       <div>
         <div className="collapse navbar-collapse" id="navbarNavDropdown">
           <br />
-          <div className="infoTitle">приложения</div>
           <br />
           {apps}
         </div>
 
-        {!show ? (
-          <div className="header">
-            <span className="chatInfo">
-              <i className="fas fa-user"></i> {username}
-            </span>
-            <span className="chatInfo">
-              <i className="fas fa-users"></i> 8
-            </span>
-          </div>
-        ) : (
-          ""
-        )}
+        <div
+          className="header"
+          style={{ backgroundColor: theme ? "white" : "" }}
+        >
+          {!show ? (
+            <div>
+              <span className="chatInfo">
+                <i className="fas fa-user"></i> {username}
+              </span>
+              <span className="chatInfo">
+                <i className="fas fa-users"></i> 8
+              </span>
+            </div>
+          ) : (
+            <div className="infoTitle">приложения</div>
+          )}
+        </div>
 
-        <div className="chat">{dialogs}</div>
+        <div
+          className="chat"
+          style={{ backgroundColor: theme ? "rgba(222, 231, 255, 0.8)" : "" }}
+        >
+          {dialogs}
+        </div>
 
-        <div className="msgInputBar">
+        <div
+          className="msgInputBar"
+          style={{
+            backgroundColor: theme ? "white" : "",
+          }}
+        >
           <div className="row">
             <div className="col-10">
               <textarea
                 className="msgInput"
+                style={{ color: theme ? "black" : "" }}
                 ref={this.msgInputRef}
                 rows="2"
                 placeholder="Введите сообщение.."
@@ -202,7 +288,21 @@ class Main extends React.Component {
           </div>
         </div>
 
-        <div className="footer">
+        <div
+          className="footer"
+          style={{ backgroundColor: theme ? "white" : "" }}
+        >
+          {!show ? (
+            <div
+              className="btnFooter"
+              data-bs-toggle="modal"
+              data-bs-target="#RoomsModal"
+            >
+              <i className="fas fa-coffee"></i>
+            </div>
+          ) : (
+            ""
+          )}
           <div
             className="btnFooterMain"
             data-bs-toggle="collapse"
@@ -215,6 +315,18 @@ class Main extends React.Component {
               <i className="fas fa-times" ref={this.closeRef}></i>
             )}
           </div>
+          {!show ? (
+            <div
+              className="btnFooter"
+              data-bs-toggle="modal"
+              data-bs-target="#SettingsModal"
+              onClick={this.getSettings}
+            >
+              <i className="fas fa-sliders-h"></i>
+            </div>
+          ) : (
+            ""
+          )}
         </div>
       </div>
     );

@@ -1,9 +1,7 @@
 import React from "react";
 import axios from "axios";
-import { BrowserRouter, NavLink, Route, withRouter } from "react-router-dom";
+import { BrowserRouter, withRouter } from "react-router-dom";
 import { navigate } from "hookrouter";
-
-import Main from "./Main.js";
 
 import "../App.css";
 import "../styles/login.css";
@@ -91,7 +89,7 @@ class LoginPage extends React.Component {
           type="password"
           placeholder="придумайте пароль"
           onChange={(e) => {
-            localStorage.setItem("userLogin", e.target.value);
+            localStorage.setItem("userPassword", e.target.value);
           }}
         />
         <br />

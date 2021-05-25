@@ -1,0 +1,26 @@
+.settingTitle {
+  position: relative;
+  width: 95%;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: left;
+  margin-bottom: 10px;
+  font-weight: 700;
+  font-size: 25px;
+  opacity: 0.8;
+}
+
+.themeBlock {
+  position: relative;
+  display: inline-block;
+  width: 40%;
+  height: 50px;
+  margin: 0px 10px;
+  border-radius: 10px;
+  box-shadow: 1px 5px 5px rgba(0, 0, 0, 0.4);
+  transition: 0.2s all;
+}
+.themeBlock:hover {
+  opacity: 0.6;
+  border-radius: 50px;
+}
