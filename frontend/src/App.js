@@ -159,6 +159,7 @@ class App extends React.Component {
                 ></button>
               </div>
               <div className="modal-body">...</div>
+              <div className="modal-footer"></div>
             </div>
           </div>
         </div>
@@ -184,6 +185,7 @@ class App extends React.Component {
                 ></button>
               </div>
               <div className="modal-body">{settingForm}</div>
+              <div className="modal-footer"></div>
             </div>
           </div>
         </div>

@@ -29,10 +29,15 @@ class Main extends React.Component {
         bio: "",
         color: "",
         avatar: "",
-      }
+      },
     };
 
     this.msgInputRef = React.createRef();
+    this.fileInputRef = React.createRef();
+    this.imgRef = React.createRef();
+    this.titleInputRef = React.createRef();
+    this.bioInputRef = React.createRef();
+    this.colorInputRef = React.createRef();
 
     this.domain = "192.168.1.57:8000";
 
@@ -45,6 +50,9 @@ class Main extends React.Component {
     this.getDialogs = this.getDialogs.bind(this);
     this.getSettings = this.getSettings.bind(this);
     this.userLogout = this.userLogout.bind(this);
+
+    this.getImagePreview = this.getImagePreview.bind(this);
+    this.handleFileUpload = this.handleFileUpload.bind(this);
 
     this.connect = this.connect.bind(this);
     this.disconnect = this.disconnect.bind(this);
@@ -124,16 +132,66 @@ class Main extends React.Component {
   }
 
   getSettings() {
+    let userId = localStorage.getItem("userId");
     let username = localStorage.getItem("userLogin");
+    let token = localStorage.getItem("token");
+    let room = this.state.room;
+
+    axios
+      .get(`http://${this.domain}/api/v1/server/room_detail/${userId}/`, {
+        headers: { Authorization: "Token " + token },
+      })
+      .then((response) => {
+        let room = response.data[0];
+
+        this.setState({ room }, () => {
+          console.log(this.state.room);
+        });
+
+        this.titleInputRef.current.value = room.title;
+        this.bioInputRef.current.value = room.bio;
+        this.imgRef.current.src = room.avatar;
+        this.colorInputRef.current.value = room.color;
+      });
 
     let form = (
       <div>
         <div className="settingTitle">Комната</div>
         <div style={{ width: "100%" }}>
-          <input className="inputForm" type="text" placeholder="Название" />
-          <textarea className="inputForm" rows="5" placeholder="Описание"></textarea>
-          <input className="inputForm" type="color" />
-          <input className="inputForm" type="img" />
+          <input
+            className="inputForm"
+            ref={this.titleInputRef}
+            type="text"
+            placeholder="Название"
+          />
+          <img
+            className="roomCoverPreview"
+            ref={this.imgRef}
+            src=""
+            alt="Обложка комнаты"
+          />
+          <button
+            className="btn btnFile"
+            onClick={() => {
+              this.fileInputRef.current.click();
+            }}
+          >
+            <i className="fas fa-camera"></i> загрузить обложку
+          </button>
+          <input className="inputForm" ref={this.colorInputRef} type="color" />
+          <input
+            type="file"
+            accept="image/jpeg, image/gif, image/png"
+            ref={this.fileInputRef}
+            hidden={true}
+            onChange={this.handleFileUpload}
+          />
+          <textarea
+            className="inputForm"
+            rows="5"
+            ref={this.bioInputRef}
+            placeholder="Описание"
+          ></textarea>
         </div>
         <br />
         <div className="settingTitle">Тема</div>
@@ -171,6 +229,35 @@ class Main extends React.Component {
     );
 
     this.props.setSettingsForm(form);
+  }
+
+  /* image upload funcs */
+
+  getImagePreview() {
+    if (/\.(jpe?g|png|gif)$/i.test(this.files.file.name)) {
+      let reader = new FileReader();
+
+      reader.addEventListener(
+        "load",
+        function () {
+          this.files.url = reader.result;
+        }.bind(this),
+        false
+      );
+
+      reader.readAsDataURL(this.files.file);
+    }
+  }
+
+  handleFileUpload() {
+    let uploadedFiles = this.$refs.files.files;
+    let len = this.files.length;
+
+    for (var i = 0; i < uploadedFiles.length; i++) {
+      this.files.push({ file: uploadedFiles[i], url: "", text: "" });
+    }
+
+    this.getImagePreview();
   }
 
   /* websocket funcs */
