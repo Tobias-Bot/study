@@ -18,7 +18,7 @@ class AppPage extends React.Component {
 
     return (
       <div>
-        <iframe name="appFrame" src={appUrl}></iframe>
+        <iframe title="appFrame" src={appUrl}></iframe>
       </div>
     );
   }

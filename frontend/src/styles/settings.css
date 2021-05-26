@@ -21,6 +21,7 @@
   transition: 0.2s all;
 }
 .themeBlock:hover {
-  opacity: 0.6;
-  border-radius: 50px;
+  cursor: pointer;
+  opacity: 0.8;
+  border: 3px solid rgba(255, 255, 255, 0.5);
 }

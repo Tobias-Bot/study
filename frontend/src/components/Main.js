@@ -8,6 +8,7 @@ import apps from "../data/apps";
 
 import "../styles/main.css";
 import "../styles/chat.css";
+import "../styles/login.css";
 import "../styles/settings.css";
 
 // import background from "../static/MainBackground.jpg";
@@ -22,6 +23,13 @@ class Main extends React.Component {
       dialogs: [],
 
       theme: "",
+
+      room: {
+        title: "",
+        bio: "",
+        color: "",
+        avatar: "",
+      }
     };
 
     this.msgInputRef = React.createRef();
@@ -120,16 +128,12 @@ class Main extends React.Component {
 
     let form = (
       <div>
-        <div className="settingTitle">Пользователь</div>
-        <div style={{ width: "100%", textAlign: "center" }}>
-          <button
-            type="button"
-            className="btn btn-outline-danger"
-            data-bs-dismiss="modal"
-            onClick={this.userLogout}
-          >
-            Выйти из {username}
-          </button>
+        <div className="settingTitle">Комната</div>
+        <div style={{ width: "100%" }}>
+          <input className="inputForm" type="text" placeholder="Название" />
+          <textarea className="inputForm" rows="5" placeholder="Описание"></textarea>
+          <input className="inputForm" type="color" />
+          <input className="inputForm" type="img" />
         </div>
         <br />
         <div className="settingTitle">Тема</div>
@@ -150,6 +154,18 @@ class Main extends React.Component {
               localStorage.setItem("chatTheme", "white");
             }}
           ></div>
+        </div>
+        <br />
+        <div className="settingTitle">Пользователь</div>
+        <div style={{ width: "100%", textAlign: "center" }}>
+          <button
+            type="button"
+            className="btn btn-outline-danger"
+            data-bs-dismiss="modal"
+            onClick={this.userLogout}
+          >
+            Выйти из {username}
+          </button>
         </div>
       </div>
     );
