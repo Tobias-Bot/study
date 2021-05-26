@@ -29,3 +29,21 @@ class RoomDetailView(generics.ListAPIView):
         room_id = self.kwargs['id']
         queryset = Room.objects.filter(user_id=room_id)
         return queryset
+
+
+class RoomListView(generics.ListAPIView):
+    serializer_class = RoomSerializer
+    model = serializer_class.Meta.model
+
+    def get_queryset(self):
+        queryset = Room.objects.all()
+        return queryset
+
+
+class SearchRoomList(generics.ListAPIView):
+    serializer_class = RoomSerializer
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        room_list = Room.objects.filter(title__icontains=query)
+        return room_list
