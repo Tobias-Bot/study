@@ -6,7 +6,7 @@ from . import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    # path('api/v1/server/', include('news.urls')),
+    path('api/v1/server/', include('userroom.urls')),
 
     path('api/v1/auth/', include('djoser.urls')),
     path('api/v1/auth_token/', include('djoser.urls.authtoken')),
