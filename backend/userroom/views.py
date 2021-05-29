@@ -57,7 +57,7 @@ class appNotesUpdateView(generics.UpdateAPIView):
 
 class appNotesDetailView(generics.ListAPIView):
     serializer_class = appNotesSerializer
-    permission_classes = (IsAuthenticated)
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         room_id = self.kwargs['id']
