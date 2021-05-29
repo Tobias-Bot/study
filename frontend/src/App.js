@@ -27,10 +27,12 @@ class App extends React.Component {
       form: "",
 
       settingForm: "",
+      rooms: "",
     };
 
     this.getForm = this.getForm.bind(this);
     this.getSettings = this.getSettings.bind(this);
+    this.getRooms = this.getRooms.bind(this);
 
     this.userLogin = this.userLogin.bind(this);
     this.userReg = this.userReg.bind(this);
@@ -44,6 +46,10 @@ class App extends React.Component {
 
   getSettings(settingForm) {
     this.setState({ settingForm });
+  }
+
+  getRooms(rooms) {
+    this.setState({ rooms });
   }
 
   /* send login request funcs */
@@ -98,6 +104,7 @@ class App extends React.Component {
     let formTitle = this.state.form.title;
 
     let settingForm = this.state.settingForm;
+    let rooms = this.state.rooms;
 
     return (
       <BrowserRouter>
@@ -158,8 +165,7 @@ class App extends React.Component {
                   aria-label="Close"
                 ></button>
               </div>
-              <div className="modal-body">...</div>
-              <div className="modal-footer"></div>
+              <div className="modal-body">{rooms}</div>
             </div>
           </div>
         </div>
@@ -185,7 +191,6 @@ class App extends React.Component {
                 ></button>
               </div>
               <div className="modal-body">{settingForm}</div>
-              <div className="modal-footer"></div>
             </div>
           </div>
         </div>
@@ -196,7 +201,10 @@ class App extends React.Component {
               <LoginPage getForm={this.getForm} />
             </Route>
             <Route path="/main/:id">
-              <Main setSettingsForm={this.getSettings} />
+              <Main
+                setSettingsForm={this.getSettings}
+                setRoomsForm={this.getRooms}
+              />
             </Route>
             <Route path="/app/:id">
               <AppPage />

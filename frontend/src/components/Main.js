@@ -10,8 +10,7 @@ import "../styles/main.css";
 import "../styles/chat.css";
 import "../styles/login.css";
 import "../styles/settings.css";
-
-// import background from "../static/MainBackground.jpg";
+import "../styles/rooms.css";
 
 class Main extends React.Component {
   constructor(props) {
@@ -32,6 +31,8 @@ class Main extends React.Component {
       },
     };
 
+    this.uploadedFile = "";
+
     this.msgInputRef = React.createRef();
     this.fileInputRef = React.createRef();
     this.imgRef = React.createRef();
@@ -50,6 +51,8 @@ class Main extends React.Component {
     this.getDialogs = this.getDialogs.bind(this);
     this.getSettings = this.getSettings.bind(this);
     this.userLogout = this.userLogout.bind(this);
+    this.saveRoomSettings = this.saveRoomSettings.bind(this);
+    this.getRooms = this.getRooms.bind(this);
 
     this.getImagePreview = this.getImagePreview.bind(this);
     this.handleFileUpload = this.handleFileUpload.bind(this);
@@ -61,8 +64,23 @@ class Main extends React.Component {
 
   componentDidMount() {
     let t = localStorage.getItem("chatTheme");
+    let userId = localStorage.getItem("userId");
+    let token = localStorage.getItem("token");
 
     if (t) this.setState({ theme: t });
+
+    axios
+      .get(`http://${this.domain}/api/v1/server/room_detail/${userId}/`, {
+        headers: { Authorization: "Token " + token },
+      })
+      .then((response) => {
+        let room = response.data[0];
+
+        this.setState({ room });
+
+        localStorage.setItem("currRoomTitle", room.title);
+        localStorage.setItem("currRoomId", room.user);
+      });
 
     this.connect();
   }
@@ -75,7 +93,7 @@ class Main extends React.Component {
   /* render funcs */
 
   getApps() {
-    let id = localStorage.getItem("userId");
+    let id = localStorage.getItem("currRoomId");
 
     let response = apps.map((app, i) => {
       return (
@@ -132,10 +150,12 @@ class Main extends React.Component {
   }
 
   getSettings() {
-    let userId = localStorage.getItem("userId");
     let username = localStorage.getItem("userLogin");
+    let userId = localStorage.getItem("currRoomId");
+    let currUser = localStorage.getItem("userId");
     let token = localStorage.getItem("token");
-    let room = this.state.room;
+
+    let admin = !(currUser === userId);
 
     axios
       .get(`http://${this.domain}/api/v1/server/room_detail/${userId}/`, {
@@ -144,9 +164,7 @@ class Main extends React.Component {
       .then((response) => {
         let room = response.data[0];
 
-        this.setState({ room }, () => {
-          console.log(this.state.room);
-        });
+        this.setState({ room });
 
         this.titleInputRef.current.value = room.title;
         this.bioInputRef.current.value = room.bio;
@@ -163,6 +181,7 @@ class Main extends React.Component {
             ref={this.titleInputRef}
             type="text"
             placeholder="Название"
+            readOnly={admin}
           />
           <img
             className="roomCoverPreview"
@@ -175,10 +194,16 @@ class Main extends React.Component {
             onClick={() => {
               this.fileInputRef.current.click();
             }}
+            hidden={admin}
           >
             <i className="fas fa-camera"></i> загрузить обложку
           </button>
-          <input className="inputForm" ref={this.colorInputRef} type="color" />
+          <input
+            className="inputForm"
+            ref={this.colorInputRef}
+            type="color"
+            hidden={admin}
+          />
           <input
             type="file"
             accept="image/jpeg, image/gif, image/png"
@@ -191,7 +216,13 @@ class Main extends React.Component {
             rows="5"
             ref={this.bioInputRef}
             placeholder="Описание"
+            readOnly={admin}
           ></textarea>
+        </div>
+        <div style={{ width: "100%", textAlign: "center" }} hidden={admin}>
+          <button className="btnSave" onClick={this.saveRoomSettings}>
+            сохранить
+          </button>
         </div>
         <br />
         <div className="settingTitle">Тема</div>
@@ -225,45 +256,91 @@ class Main extends React.Component {
             Выйти из {username}
           </button>
         </div>
+        <br />
       </div>
     );
 
     this.props.setSettingsForm(form);
   }
 
+  getRooms() {
+    let userId = localStorage.getItem("userId");
+    let username = localStorage.getItem("userLogin");
+    let token = localStorage.getItem("token");
+
+    axios
+      .get(`http://${this.domain}/api/v1/server/room_list/`, {
+        headers: { Authorization: "Token " + token },
+      })
+      .then((response) => {
+        let rooms = response.data;
+
+        let form = rooms.map((room) => {
+          return (
+            <div
+              key={room.user}
+              className="roomView"
+              style={{ backgroundColor: room.color }}
+            >
+              <div
+                className="btnEnterRoom"
+                style={{ backgroundColor: room.color }}
+                onClick={() => {
+                  localStorage.setItem("currRoomId", room.user);
+                  localStorage.setItem("currRoomTitle", room.title);
+                  navigate("/main/" + room.user);
+                  window.location.reload();
+                }}
+              >
+                войти
+              </div>
+              <img
+                className="roomCover"
+                src={room.avatar}
+                alt="Обложка комнаты"
+              />
+              <div className="roomText">
+                <div className="roomTitle">{room.title}</div>
+                <div className="roomBio">{room.bio}</div>
+              </div>
+            </div>
+          );
+        });
+
+        this.props.setRoomsForm(form);
+      });
+  }
+
   /* image upload funcs */
 
-  getImagePreview() {
-    if (/\.(jpe?g|png|gif)$/i.test(this.files.file.name)) {
+  getImagePreview(file) {
+    if (/\.(jpe?g|png|gif)$/i.test(file.name)) {
       let reader = new FileReader();
 
-      reader.addEventListener(
-        "load",
-        function () {
-          this.files.url = reader.result;
-        }.bind(this),
-        false
-      );
+      reader.addEventListener("load", () => {
+        let url = reader.result;
+        let room = this.state.room;
 
-      reader.readAsDataURL(this.files.file);
+        room.avatar = url;
+
+        this.setState({ room });
+        this.imgRef.current.src = url;
+      });
+
+      reader.readAsDataURL(file);
     }
   }
 
   handleFileUpload() {
-    let uploadedFiles = this.$refs.files.files;
-    let len = this.files.length;
+    this.uploadedFile = this.fileInputRef.current.files[0];
 
-    for (var i = 0; i < uploadedFiles.length; i++) {
-      this.files.push({ file: uploadedFiles[i], url: "", text: "" });
-    }
-
-    this.getImagePreview();
+    this.getImagePreview(this.uploadedFile);
   }
 
   /* websocket funcs */
 
   connect() {
-    let id = localStorage.getItem("userId");
+    let id = localStorage.getItem("currRoomId");
 
     this.chatSocket = new WebSocket(`ws://${this.domain}/ws/chat/${id}/`);
 
@@ -325,9 +402,40 @@ class Main extends React.Component {
     this.setState({ msgText: e.target.value });
   }
 
+  saveRoomSettings() {
+    let token = localStorage.getItem("token");
+    let id = localStorage.getItem("userId");
+
+    let data = {
+      title: this.titleInputRef.current.value,
+      bio: this.bioInputRef.current.value,
+      color: this.colorInputRef.current.value,
+      avatar: this.uploadedFile,
+      user: id,
+    };
+
+    let formData = new FormData();
+    formData.append("title", data.title);
+    formData.append("bio", data.bio);
+    formData.append("avatar", data.avatar);
+    formData.append("color", data.color);
+    formData.append("user", data.user);
+
+    axios
+      .put(`http://${this.domain}/api/v1/server/room_update/${id}/`, formData, {
+        headers: {
+          Authorization: "Token " + token,
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+      });
+  }
+
   render() {
     let show = this.state.show;
-    let username = localStorage.getItem("userLogin");
+    let roomTitle = localStorage.getItem("currRoomTitle");
     let theme = this.state.theme;
 
     let apps = this.getApps();
@@ -348,7 +456,8 @@ class Main extends React.Component {
           {!show ? (
             <div>
               <span className="chatInfo">
-                <i className="fas fa-user"></i> {username}
+                <i className="fas fa-user"></i>{" "}
+                {roomTitle ? roomTitle.substring(0, 30) : ""}
               </span>
               <span className="chatInfo">
                 <i className="fas fa-users"></i> 8
@@ -400,6 +509,7 @@ class Main extends React.Component {
               className="btnFooter"
               data-bs-toggle="modal"
               data-bs-target="#RoomsModal"
+              onClick={this.getRooms}
             >
               <i className="fas fa-coffee"></i>
             </div>

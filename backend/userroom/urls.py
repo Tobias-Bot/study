@@ -1,10 +1,13 @@
 from django.urls import path
 from . import views
-from . views import RoomUpdateView, RoomDetailView, RoomListView, SearchRoomList
+from . views import RoomUpdateView, RoomDetailView, RoomListView, SearchRoomList, appNotesUpdateView, appNotesDetailView
 
 urlpatterns = [
     path('room_update/<int:user>/', RoomUpdateView.as_view()),
     path('room_detail/<int:id>/', RoomDetailView.as_view()),
     path('room_list/', RoomListView.as_view()),
     path('room_search/', SearchRoomList.as_view()),
+
+    path('app_notes_update/', appNotesUpdateView.as_view()),
+    path('app_notes_detail/<int:id>/', appNotesDetailView.as_view()),
 ]

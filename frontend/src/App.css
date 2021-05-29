@@ -32,7 +32,7 @@ body {
 }
 
 .modal-dialog-centered.modal-dialog-scrollable .modal-content {
-  max-height: 75%;
+  max-height: 90%;
   -webkit-overflow-scrolling: touch;
   overflow-x: scroll;
 }
@@ -40,6 +40,13 @@ body {
 .modal-content {
   background-color: #c9cdff;
   color: rgba(0, 0, 0, 0.8);
+}
+
+.linkStyle {
+  color: rgba(0, 0, 0, 0.9);
+}
+.linkStyle:hover {
+  text-decoration: none;
 }
 
 .collapse {

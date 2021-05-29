@@ -9,16 +9,31 @@ class AppPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+
+    this.sendId = this.sendId.bind(this);
   }
 
   componentDidMount() {}
+
+  sendId() {
+    let id = localStorage.getItem("currRoomId");
+
+    let myIframe = document.getElementById("appFrame");
+
+    myIframe.contentWindow.postMessage(id, "*");
+  }
 
   render() {
     let appUrl = localStorage.getItem("recentUsedApp");
 
     return (
       <div>
-        <iframe title="appFrame" src={appUrl}></iframe>
+        <iframe
+          id="appFrame"
+          title="appFrame"
+          src={appUrl}
+          onLoad={this.sendId}
+        ></iframe>
       </div>
     );
   }

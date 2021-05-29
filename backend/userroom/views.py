@@ -3,7 +3,7 @@ from rest_framework import generics
 from rest_framework.views import APIView
 from django.views.generic import ListView
 from rest_framework.response import Response
-from . serializers import RoomSerializer
+from . serializers import RoomSerializer, appNotesSerializer
 from . permissions import IsOwnerOrReadOnly
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication, SessionAuthentication
@@ -12,6 +12,7 @@ from django.db.models import F
 from django.db.models import Q
 
 from . models import Room
+from . models import appNotes
 
 
 class RoomUpdateView(generics.UpdateAPIView):
@@ -47,3 +48,18 @@ class SearchRoomList(generics.ListAPIView):
         query = self.request.GET.get('q')
         room_list = Room.objects.filter(title__icontains=query)
         return room_list
+
+class appNotesUpdateView(generics.UpdateAPIView):
+    serializer_class = appNotesSerializer
+    permission_classes = (IsAuthenticated)
+    lookup_field = 'user'
+    queryset = appNotes.objects.all()
+
+class appNotesDetailView(generics.ListAPIView):
+    serializer_class = appNotesSerializer
+    permission_classes = (IsAuthenticated)
+
+    def get_queryset(self):
+        room_id = self.kwargs['id']
+        queryset = appNotes.objects.filter(user_id=room_id)
+        return queryset
