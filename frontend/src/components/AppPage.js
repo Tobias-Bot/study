@@ -17,10 +17,11 @@ class AppPage extends React.Component {
 
   sendId() {
     let id = localStorage.getItem("currRoomId");
+    let token = localStorage.getItem("token");
 
     let myIframe = document.getElementById("appFrame");
 
-    myIframe.contentWindow.postMessage(id, "*");
+    myIframe.contentWindow.postMessage({ id, token }, "*");
   }
 
   render() {

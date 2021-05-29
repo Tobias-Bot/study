@@ -5,7 +5,7 @@ from django.views.generic import ListView
 from rest_framework.response import Response
 from . serializers import RoomSerializer, appNotesSerializer
 from . permissions import IsOwnerOrReadOnly
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.authentication import TokenAuthentication, SessionAuthentication
 
 from django.db.models import F
@@ -51,7 +51,7 @@ class SearchRoomList(generics.ListAPIView):
 
 class appNotesUpdateView(generics.UpdateAPIView):
     serializer_class = appNotesSerializer
-    permission_classes = (IsAuthenticated)
+    permission_classes = [IsAuthenticated]
     lookup_field = 'user'
     queryset = appNotes.objects.all()
 

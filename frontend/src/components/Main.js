@@ -64,10 +64,14 @@ class Main extends React.Component {
 
   componentDidMount() {
     let t = localStorage.getItem("chatTheme");
-    let userId = localStorage.getItem("userId");
+    let userId = localStorage.getItem("currRoomId");
     let token = localStorage.getItem("token");
 
     if (t) this.setState({ theme: t });
+
+    if (!userId) {
+      userId = localStorage.getItem("userId");
+    }
 
     axios
       .get(`http://${this.domain}/api/v1/server/room_detail/${userId}/`, {
@@ -80,9 +84,9 @@ class Main extends React.Component {
 
         localStorage.setItem("currRoomTitle", room.title);
         localStorage.setItem("currRoomId", room.user);
-      });
 
-    this.connect();
+        this.connect();
+      });
   }
 
   showAnimation() {
@@ -390,6 +394,8 @@ class Main extends React.Component {
         localStorage.setItem("userPassword", "");
         localStorage.setItem("userId", "");
         localStorage.setItem("token", "");
+        localStorage.setItem("currRoomTitle", "");
+        localStorage.setItem("currRoomId", "");
 
         navigate("/");
         window.location.reload();
@@ -435,7 +441,7 @@ class Main extends React.Component {
 
   render() {
     let show = this.state.show;
-    let roomTitle = localStorage.getItem("currRoomTitle");
+    let roomTitle = this.state.room.title;
     let theme = this.state.theme;
 
     let apps = this.getApps();
