@@ -9,7 +9,7 @@ const topics = [
     title: "текст",
     color: "#A0C1FF",
     icon: "fas fa-font",
-    url: "http://192.168.1.57:3001/todo-app",
+    url: "http://localhost:3001/may_articles#/",
   },
   {
     title: "приложение 3",

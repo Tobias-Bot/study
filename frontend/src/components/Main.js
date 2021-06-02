@@ -29,6 +29,8 @@ class Main extends React.Component {
         color: "",
         avatar: "",
       },
+
+      status: "disconnected",
     };
 
     this.uploadedFile = "";
@@ -42,7 +44,6 @@ class Main extends React.Component {
 
     this.domain = "192.168.1.57:8000";
 
-    this.status = "disconnected";
     this.chatSocket = "";
 
     this.getApps = this.getApps.bind(this);
@@ -349,7 +350,7 @@ class Main extends React.Component {
     this.chatSocket = new WebSocket(`ws://${this.domain}/ws/chat/${id}/`);
 
     this.chatSocket.onopen = () => {
-      this.status = "connected";
+      this.setState({ status: "connected" });
 
       this.chatSocket.onmessage = ({ data }) => {
         let msg = [];
@@ -363,7 +364,7 @@ class Main extends React.Component {
 
   disconnect() {
     this.chatSocket.close();
-    this.status = "disconnected";
+    this.setState({ status: "disconnected" });
     this.dialogs.splice(0, this.dialogs.length);
   }
 
@@ -443,6 +444,7 @@ class Main extends React.Component {
     let show = this.state.show;
     let roomTitle = this.state.room.title;
     let theme = this.state.theme;
+    let status = this.state.status === "connected" ? true : false;
 
     let apps = this.getApps();
     let dialogs = this.getDialogs();
@@ -463,10 +465,10 @@ class Main extends React.Component {
             <div>
               <span className="chatInfo">
                 <i className="fas fa-user"></i>{" "}
-                {roomTitle ? roomTitle.substring(0, 30) : ""}
+                {roomTitle ? roomTitle.substring(0, 40) : ""}
               </span>
-              <span className="chatInfo">
-                <i className="fas fa-users"></i> 8
+              <span className="chatInfo" style={{ float: "right", color: status ? "#58CD9E" : "#ED849B" }}>
+                <i className="fas fa-wifi"></i>
               </span>
             </div>
           ) : (
@@ -476,7 +478,7 @@ class Main extends React.Component {
 
         <div
           className="chat"
-          style={{ backgroundColor: theme ? "rgba(222, 231, 255, 0.8)" : "" }}
+          style={{ backgroundColor: theme ? "rgba(222, 231, 255, 0.3)" : "" }}
         >
           {dialogs}
         </div>
