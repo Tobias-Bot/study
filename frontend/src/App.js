@@ -9,17 +9,6 @@ import AppPage from "./components/AppPage.js";
 
 import "./App.css";
 
-// const routes = {
-//   "/": () => <LoginPage getForm={App.getForm} />,
-//   "/main/:id": ({ id }) => <Main id={id} />,
-// };
-
-// const GetRoutes = () => {
-//   const routeResult = useRoutes(routes);
-
-//   return routeResult;
-// };
-
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -59,7 +48,7 @@ class App extends React.Component {
     let password = localStorage.getItem("userPassword");
 
     axios
-      .post("http://192.168.1.57:8000/api/v1/auth_token/token/login", {
+      .post("http://127.0.0.1:8000/api/v1/auth_token/token/login", {
         username,
         password,
       })
@@ -68,7 +57,7 @@ class App extends React.Component {
 
         if (token) {
           axios
-            .get("http://192.168.1.57:8000/api/v1/auth/users/me", {
+            .get("http://127.0.0.1:8000/api/v1/auth/users/me", {
               headers: { Authorization: "Token " + token },
             })
             .then((response) => {
@@ -90,7 +79,7 @@ class App extends React.Component {
     let password = localStorage.getItem("userPassword");
 
     axios
-      .post("http://192.168.1.57:8000/api/v1/auth/users/", {
+      .post("http://127.0.0.1:8000/api/v1/auth/users/", {
         username,
         password,
       })

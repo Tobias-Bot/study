@@ -1,15 +1,7 @@
-from django.shortcuts import render
 from rest_framework import generics
-from rest_framework.views import APIView
-from django.views.generic import ListView
-from rest_framework.response import Response
 from . serializers import RoomSerializer, appNotesSerializer
 from . permissions import IsOwnerOrReadOnly
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
-from rest_framework.authentication import TokenAuthentication, SessionAuthentication
-
-from django.db.models import F
-from django.db.models import Q
+from rest_framework.permissions import IsAuthenticated
 
 from . models import Room
 from . models import appNotes

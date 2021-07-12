@@ -6,17 +6,6 @@ import { navigate } from "hookrouter";
 import "../App.css";
 import "../styles/login.css";
 
-const Button = withRouter(({ history }) => (
-  <button
-    type="button"
-    onClick={() => {
-      history.push("/new-location");
-    }}
-  >
-    Click Me!
-  </button>
-));
-
 class LoginPage extends React.Component {
   constructor(props) {
     super(props);
@@ -112,7 +101,7 @@ class LoginPage extends React.Component {
 
     if (token) {
       axios
-        .get("http://192.168.1.57:8000/api/v1/auth/users/me", {
+        .get("http://172.20.96.1:8000/api/v1/auth/users/me", {
           headers: { Authorization: "Token " + token },
         })
         .then((response) => {

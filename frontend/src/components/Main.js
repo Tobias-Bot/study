@@ -42,7 +42,7 @@ class Main extends React.Component {
     this.bioInputRef = React.createRef();
     this.colorInputRef = React.createRef();
 
-    this.domain = "192.168.1.57:8000";
+    this.domain = "172.20.96.1:8000";
 
     this.chatSocket = "";
 
@@ -464,7 +464,7 @@ class Main extends React.Component {
           {!show ? (
             <div>
               <span className="chatInfo">
-                <i className="fas fa-user"></i>{" "}
+                <i className="fas fa-home"></i>{" "}
                 {roomTitle ? roomTitle.substring(0, 40) : ""}
               </span>
               <span className="chatInfo" style={{ float: "right", color: status ? "#58CD9E" : "#ED849B" }}>

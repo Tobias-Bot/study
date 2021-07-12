@@ -26,7 +26,9 @@ SECRET_KEY = '53v7a9@@_-o6ax9*aws3773kq87*v)fd8zrjpn+_btrixt!tjh'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '192.168.1.57'
+    '192.168.1.57',
+    '127.0.0.1',
+    '172.20.96.1'
 ]
 
 MEDIA_URL = '/media/'
@@ -164,5 +166,6 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:8080',
     'http://192.168.1.57:3000',
+    'http://172.20.96.1',
     'http://localhost:3001',
 ]

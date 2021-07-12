@@ -1,6 +1,4 @@
 import React from "react";
-// import axios from "axios";
-// import { BrowserRouter, NavLink, Route, withRouter } from "react-router-dom";
 
 import "../App.css";
 import "../styles/app.css";
