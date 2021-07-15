@@ -7,4 +7,4 @@ Django, Rest Framework, channels, React.js
 
 # review
 
-https://youtu.be/e9YFOei1gbw
+[![Watch the video]](https://youtu.be/e9YFOei1gbw)
