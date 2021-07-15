@@ -4,10 +4,8 @@
 <<<<<<< Updated upstream
 /frontend/node_modules
 /backend/newenv
-/redis-server
 =======
 frontend/node_modules
-redis-server
 >>>>>>> Stashed changes
 /.pnp
 .pnp.js
