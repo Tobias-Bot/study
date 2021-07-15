@@ -48,7 +48,7 @@ class App extends React.Component {
     let password = localStorage.getItem("userPassword");
 
     axios
-      .post("http://127.0.0.1:8000/api/v1/auth_token/token/login", {
+      .post("http://172.20.96.1:8000/api/v1/auth_token/token/login", {
         username,
         password,
       })
@@ -57,7 +57,7 @@ class App extends React.Component {
 
         if (token) {
           axios
-            .get("http://127.0.0.1:8000/api/v1/auth/users/me", {
+            .get("http://172.20.96.1:8000/api/v1/auth/users/me", {
               headers: { Authorization: "Token " + token },
             })
             .then((response) => {
@@ -79,7 +79,7 @@ class App extends React.Component {
     let password = localStorage.getItem("userPassword");
 
     axios
-      .post("http://127.0.0.1:8000/api/v1/auth/users/", {
+      .post("http://172.20.96.1:8000/api/v1/auth/users/", {
         username,
         password,
       })
